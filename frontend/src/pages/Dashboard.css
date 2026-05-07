@@ -1,0 +1,89 @@
+.dashboard-page {
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+.dashboard-inner {
+  padding: 1rem;
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.dashboard-title {
+  font-size: 2.25rem;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-link-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-link {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.dashboard-empty {
+  color: #475569;
+  font-size: 1.125rem;
+}
+
+.dashboard-error {
+  padding: 1rem;
+  color: #dc2626;
+}
+
+.farm-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .farm-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.farm-card {
+  background: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.farm-card:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.08);
+}
+
+.farm-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.farm-card-location {
+  font-size: 0.875rem;
+  color: #475569;
+  margin-bottom: 0.75rem;
+}
+
+.farm-card-button {
+  display: inline-block;
+  background: #2563eb;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.farm-card-button:hover {
+  background: #1d4ed8;
+}

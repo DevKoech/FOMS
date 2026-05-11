@@ -5,13 +5,25 @@ import Dashboard from './pages/Dashboard';
 import FarmDetails from './pages/FarmDetails';
 import ProtectedRoute from './components/ProtectedRoute';
 
-export default function App() {
+const App = () => {
   return (
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/" element={ <Dashboard/>}/>
-        <Route path="/farm/:id" element={<FarmDetails />}/>
-      </Routes>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route 
+        path="/dashboard" 
+        element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
+      />
+      <Route 
+        path="/farm/:id" 
+        element={<ProtectedRoute><FarmDetails /></ProtectedRoute>}
+      />
+      <Route 
+        path="/farm" 
+        element={<ProtectedRoute><FarmDetails /></ProtectedRoute>}
+      />
+    </Routes>
   );
 }
+export default App;

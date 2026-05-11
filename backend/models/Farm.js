@@ -48,7 +48,11 @@ const farmSchema = new mongoose.Schema({
   },
   soil_records: [soilSchema],
   crop_history: [cropHistorySchema],
-  recommendations: [recommendationSchema],
+  recommendations: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Recommendation'
+  }
+  ],
 }, { timestamps: true });
 
 module.exports = mongoose.model('Farm', farmSchema);

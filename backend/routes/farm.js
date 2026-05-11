@@ -25,6 +25,23 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const farm = await Farm.findById(req.params.id);
+    if (!farm) return res.status(404).json({ error: 'Farm not found' });
+
+    // Verify ownership
+    if (farm.owner_id.toString() !== req.user.id.toString()) {
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
+
+    res.json(farm);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch farm' });
+  }
+});
+
 router.post('/:id/soil', auth, async (req, res) => {
   try {
     const farm = await Farm.findById(req.params.id);

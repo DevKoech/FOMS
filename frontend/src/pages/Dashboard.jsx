@@ -1,26 +1,51 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { API } from '../api/api.js';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext.jsx';
 import Navbar from '../components/Navbar.jsx';
-import FarmDetails from './FarmDetails.jsx';
+import CreateFarm from '../components/CreateFarm.jsx';
 import './Dashboard.css';
-//import FarmDetails from '../components/FarmDetails.jsx';
 
-export default function Dashboard() {
+const Dashboard = () => {
+  const { token } = useContext(AuthContext);
+  const navigate = useNavigate();
+  console.log('[Dashboard] Token from context:', token ? 'TOKEN EXISTS' : 'NO TOKEN', token);
+  
   const [farms, setFarms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    API.get('/farms')
-      .then(res => {
-        setFarms(res.data);
-        setLoading(true);
-      })
-      
-  }, []);
+    // Redirect to login if no token
+    if (!token) {
+      navigate('/login');
+      return;
+    }
 
-  //if (loading) return <div className="dashboard-loading">Loading farms...</div>;
+    const fetchFarms = async () => {
+      try {
+        setLoading(true);
+        const res = await API.get('/farms');
+        setFarms(res.data);
+        setError('');
+      } catch (err) {
+        console.error('Error fetching farms:', err);
+        if (err.response?.status === 401) {
+          setError('Authentication expired. Please log in again.');
+          navigate('/login');
+        } else {
+          setError(err.response?.data?.error || 'Failed to load farms');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFarms();
+  }, [token, navigate]);
+
+  if (loading) return <div className="dashboard-loading">Loading farms...</div>;
   if (error) return <div className="dashboard-error">{error}</div>;
 
   return (
@@ -28,14 +53,14 @@ export default function Dashboard() {
       <Navbar />
       <div className="dashboard-inner">
         <h1 className="dashboard-title">Your Farms</h1>
-        <h1 className="dashboard-link-title">
-          <Link to="/farm" className="dashboard-link">
-            <FarmDetails />
+        {farms.length > 0 && (
+          <Link to="/farm" className="dashboard-create-button">
+            + Create New Farm
           </Link>
-        </h1>
+        )}
       </div>
       {farms.length === 0 ? (
-        <p className="dashboard-empty">No farms yet. Create one to get started!</p>
+        <CreateFarm />
       ) : (
         <div className="farm-grid">
           {farms.map(f => (
@@ -55,3 +80,5 @@ export default function Dashboard() {
     </div>
   );
 }
+
+export default Dashboard;

@@ -3,7 +3,6 @@ import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/auth.jsx';
 import './Navbar.css';
-import octadecagon from '../assets/octadecagon.jpg';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -42,10 +41,10 @@ const Navbar = () => {
         <div className="navbar-auth">
           {!user ? (
             <>
-              <Link to="#login" className="navbar-button navbar-button-login">
+              <Link to="login" className="navbar-button navbar-button-login">
                 Login
               </Link>
-              <Link to="#register" className="navbar-button navbar-button-register">
+              <Link to="register" className="navbar-button navbar-button-register">
                 Register
               </Link>
             </>

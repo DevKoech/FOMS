@@ -5,14 +5,31 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  email: {
+    type: String,
+    sparse: true,
+    unique: true
+  },
   phone: { 
     type: String,
-    unique: true,
-    required: true 
+    sparse: true,
+    unique: true
   },
   password_hash: {
+    type: String
+  },
+  googleId: {
     type: String,
-    required: true
+    sparse: true,
+    unique: true
+  },
+  profilePicture: {
+    type: String
+  },
+  authProvider: {
+    type: String,
+    enum: ['phone', 'google'],
+    default: 'phone'
   },
   role: { 
     type: String,
